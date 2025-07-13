@@ -1,0 +1,25 @@
+{
+  "server": {
+    "port": "8080"
+  },
+  "database": {
+    "host": "staging-db.example.com",
+    "port": "3306",
+    "username": "staging_user",
+    "password": "${DB_PASSWORD}",
+    "database": "loan_service_staging"
+  },
+  "jwt": {
+    "secret": "${JWT_SECRET}"
+  },
+  "external_services": {
+    "credit_score_api": {
+      "url": "https://staging-credit-api.example.com",
+      "api_key": "${CREDIT_API_KEY}"
+    },
+    "notification_service": {
+      "url": "https://staging-notification.example.com",
+      "api_key": "${NOTIFICATION_API_KEY}"
+    }
+  }
+}

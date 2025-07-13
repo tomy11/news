@@ -1,0 +1,25 @@
+{
+  "server": {
+    "port": "8080"
+  },
+  "database": {
+    "host": "${DB_HOST}",
+    "port": "${DB_PORT}",
+    "username": "${DB_USERNAME}",
+    "password": "${DB_PASSWORD}",
+    "database": "${DB_NAME}"
+  },
+  "jwt": {
+    "secret": "${JWT_SECRET}"
+  },
+  "external_services": {
+    "credit_score_api": {
+      "url": "${CREDIT_API_URL}",
+      "api_key": "${CREDIT_API_KEY}"
+    },
+    "notification_service": {
+      "url": "${NOTIFICATION_API_URL}",
+      "api_key": "${NOTIFICATION_API_KEY}"
+    }
+  }
+}

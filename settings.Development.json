@@ -1,0 +1,25 @@
+{
+  "server": {
+    "port": "8080"
+  },
+  "database": {
+    "host": "localhost",
+    "port": "3306",
+    "username": "root",
+    "password": "password",
+    "database": "loan_service_dev"
+  },
+  "jwt": {
+    "secret": "dev-secret-key"
+  },
+  "external_services": {
+    "credit_score_api": {
+      "url": "http://localhost:9001",
+      "api_key": "dev-api-key"
+    },
+    "notification_service": {
+      "url": "http://localhost:9002",
+      "api_key": "dev-notification-key"
+    }
+  }
+}

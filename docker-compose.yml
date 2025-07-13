@@ -3,10 +3,12 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: news_mysql
+    container_name: loan_mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: news_db
+      MYSQL_DATABASE: loan_service_dev
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 654321
     ports:
       - "3306:3306"
     volumes:
@@ -16,13 +18,13 @@ services:
       timeout: 20s
       retries: 10
 
-  api:
+  loan-service:
     build: .
-    container_name: news_api
+    container_name: loan_service
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: root:password@tcp(mysql:3306)/news_db?charset=utf8mb4&parseTime=True&loc=Local
+      DATABASE_URL: admin:654321@tcp(mysql:3306)/loan_service_dev?charset=utf8mb4&parseTime=True&loc=Local
       JWT_SECRET: i1cDUBFwjiz8prLcz4ClTS6jMpT14omp
       PORT: :8080
     depends_on:

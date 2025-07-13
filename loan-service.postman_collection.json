@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "loan-service-api",
+		"name": "Loan Service API",
+		"description": "Complete API collection for Loan Service endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "customerId",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/",
+					"host": ["{{baseUrl}}"],
+					"path": [""]
+				}
+			}
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.data && response.data.token) {",
+									"        pm.collectionVariables.set('token', response.data.token);",
+									"        pm.collectionVariables.set('customerId', response.data.customer.id);",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"name\": \"John Doe\",\n    \"phone\": \"0812345678\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.data && response.data.token) {",
+									"        pm.collectionVariables.set('token', response.data.token);",
+									"        pm.collectionVariables.set('customerId', response.data.customer.id);",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Customer Management",
+			"item": [
+				{
+					"name": "Get Customer Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Customer-ID",
+								"value": "{{customerId}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Customer Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Customer-ID",
+								"value": "{{customerId}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe Updated\",\n    \"phone\": \"0887654321\",\n    \"address\": \"123 Main Street, Bangkok\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Customer-ID",
+								"value": "{{customerId}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"current_password\": \"password123\",\n    \"new_password\": \"newpassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/password",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "password"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Customer Verification",
+			"item": [
+				{
+					"name": "Verify Phone",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Customer-ID",
+								"value": "{{customerId}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"0887654321\",\n    \"otp\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/verify-phone",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "verify-phone"]
+						}
+					}
+				},
+				{
+					"name": "Verify Identity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Customer-ID",
+								"value": "{{customerId}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_card\": \"1234567890123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"birth_date\": \"1990-01-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/verify-identity",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "verify-identity"]
+						}
+					}
+				},
+				{
+					"name": "Get Credit Score",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Customer-ID",
+								"value": "{{customerId}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/credit-score",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "credit-score"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Error Cases",
+			"item": [
+				{
+					"name": "Invalid Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"invalid-email\",\n    \"password\": \"123\",\n    \"name\": \"\",\n    \"phone\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Invalid Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"nonexistent@example.com\",\n    \"password\": \"wrongpassword\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Unauthorized Access",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Customer-ID",
+								"value": "999"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/customers/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers", "profile"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
